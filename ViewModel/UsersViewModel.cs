@@ -19,19 +19,20 @@ namespace MVVMFilterableList.ViewModel
             UserRepository.GetUsers().ForEach(x => AllUsers.Add(x));
         }
 
-        private User _selectedUser;
-        public User SelectedUser
+        private List<User> _selectedUsers;
+        public List<User> SelectedUsers
         {
-            get { return _selectedUser; }
+            get { return _selectedUsers; }
             set
             {
-                if (value == _selectedUser) return;
+                if (value == _selectedUsers) return;
                 
-                _selectedUser = value;
-                Notify("SelectedUser");
+                _selectedUsers = value;
+                Notify("SelectedUsers");
                 _parents.Clear();
                 
-                if (_selectedUser.Parents != null) _selectedUser.Parents.ForEach(x => _parents.Add(x));
+                var parents = _selectedUsers.SelectMany(x => x.Parents);
+                parents.ToList().ForEach(x => _parents.Add(x));
 
                 UpdateFilter();
             }

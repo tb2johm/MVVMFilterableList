@@ -11,7 +11,7 @@ namespace MVVMFilterableList.Model
         public static List<User> UserList = new List<User>
         {
             new User("Victoria", new List<User>{new User("Carl"), new User("Silvia")}),
-            new User("Astrid")
+            new User("Astrid", new List<User>{new User("Samuel"), new User("Hanna")})
         };
 
         public static List<User> GetUsers()
