@@ -33,7 +33,10 @@ namespace MVVMFilterableList.Controls
                     .Register("SelectedItemsList", 
                                 typeof(IList), 
                                 typeof(MultiSelectableListView),
-                                new FrameworkPropertyMetadata((IList)null));
+                                new FrameworkPropertyMetadata()
+                                {
+                                    BindsTwoWayByDefault = true,
+                                });
         #endregion
     }
 }
