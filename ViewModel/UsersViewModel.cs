@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MMVVM.ViewModelBase;
 using MVVMFilterableList.Model;
+using System.Collections;
 
 
 namespace MVVMFilterableList.ViewModel
@@ -20,21 +21,31 @@ namespace MVVMFilterableList.ViewModel
         }
 
         private List<User> _selectedUsers;
-        public List<User> SelectedUsers
+        public IList SelectedUsers
         {
             get { return _selectedUsers; }
             set
             {
-                if (value == _selectedUsers) return;
-                
-                _selectedUsers = value;
-                Notify("SelectedUsers");
-                _parents.Clear();
-                
-                var parents = _selectedUsers.SelectMany(x => x.Parents);
-                parents.ToList().ForEach(x => _parents.Add(x));
+                if (value == null) 
+                    return;
 
-                UpdateFilter();
+                try
+                {
+                    var theValue = value.Cast<User>().ToList();
+                    if (theValue == _selectedUsers) return;
+
+                    _selectedUsers = theValue;
+                    Notify("SelectedUsers");
+                    _parents.Clear();
+
+                    var parents = _selectedUsers.SelectMany(x => x.Parents);
+                    parents.ToList().ForEach(x => _parents.Add(x));
+
+                    UpdateFilter();
+                }
+                catch (Exception)
+                {                    
+                }
             }
         }
 
